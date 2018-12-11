@@ -75,13 +75,31 @@ $(document).ready(function() {
     return errors
   }
 
+  // Muestra los errores que presenta el numero ingresado.
+  function showErrors(errors){
+
+    if (errors.hasDuplicateDigits || errors.hasLessThanFourDigits) {
+      let element = document.getElementById('fourDigits');
+      $(element).addClass('error');
+      element= document.getElementById('shoot');
+      $(element).addClass('error');
+    } else {
+      let element = document.getElementById('fourDigits');
+      $(element).removeClass('error');
+      element= document.getElementById('shoot');
+      $(element).removeClass('error');
+    }
+    return (errors.hasDuplicateDigits || errors.hasLessThanFourDigits);
+  }
+
   //Programa principal. activado por evento cuano se presiona la tecla enter.
   $('#shoot').on('keyup', function(event){
     if (event.keyCode == 13){
       let number = $(this).val();
       let number_array = becomeArray(number);
       let errors = errorsValidation(number, number_array);
-      console.log(errors);
+      let play = !showErrors(errors);
+      console.log(play);
     }
   });
   
