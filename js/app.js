@@ -34,6 +34,35 @@ $(document).ready(function() {
     }
     return randomNumber;
   }
+
+  //Convierte el numero ingresado por el usuario en un arreglo de 4 posiciones.
+  function becomeArray(number){
+
+    let digits = new Array 
+
+    let digito4 = Math.floor(number/1000);
+    let modulo = number%1000;
+    let digito3 = Math.floor(modulo/100);
+    modulo = number%100;
+    let digito2 = Math.floor(modulo/10);
+    let digito1 = Math.floor(number%10);
+
+    digits = [ digito4,
+               digito3,
+               digito2,
+               digito1];
+
+    return digits;
+  }
+
+  //Programa principal. activado por evento cuano se presiona la tecla enter.
+  $('#shoot').on('keyup', function(event){
+    if (event.keyCode == 13){
+      let number = $(this).val();
+      let number_array = becomeArray(number);
+      console.log(number_array);
+    }
+  });
   
   aleatorio = getRandomNumber();
   console.log(aleatorio.join(''));
