@@ -55,12 +55,51 @@ $(document).ready(function() {
     return digits;
   }
 
+  // Realiza la validacion de errores del numero ingresado por el usuario.
+  function errorsValidation(number, number_array){
+    let errors = { hasLessThanFourDigits: false, hasDuplicateDigits: false };
+
+    //  Validad el numero ingresado tenga 4 digitos
+    if (number.length < quantityDigits) { 
+      errors.hasLessThanFourDigits = true; 
+    } 
+
+    // Validad el numero ingresado no tenga digitos duplicados.
+    for (var j = (quantityDigits - 1); j >= (quantityDigits - number.length); j--) {
+      for (var i = (quantityDigits - 1); i >= (quantityDigits - number.length); i--) {
+        if((j != i) && (number_array[j] == number_array[i])){
+          errors.hasDuplicateDigits = true;
+        }
+      }
+    }
+    return errors
+  }
+
+  // Muestra los errores que presenta el numero ingresado.
+  function showErrors(errors){
+
+    if (errors.hasDuplicateDigits || errors.hasLessThanFourDigits) {
+      let element = document.getElementById('fourDigits');
+      $(element).addClass('error');
+      element= document.getElementById('shoot');
+      $(element).addClass('error');
+    } else {
+      let element = document.getElementById('fourDigits');
+      $(element).removeClass('error');
+      element= document.getElementById('shoot');
+      $(element).removeClass('error');
+    }
+    return (errors.hasDuplicateDigits || errors.hasLessThanFourDigits);
+  }
+
   //Programa principal. activado por evento cuano se presiona la tecla enter.
   $('#shoot').on('keyup', function(event){
     if (event.keyCode == 13){
       let number = $(this).val();
       let number_array = becomeArray(number);
-      console.log(number_array);
+      let errors = errorsValidation(number, number_array);
+      let play = !showErrors(errors);
+      console.log(play);
     }
   });
   
