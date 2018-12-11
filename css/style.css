@@ -1,3 +1,44 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background-color: red;
+  background-color: #f0f0f0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}aaaa
+
+table, th, td {
+  padding: 5px 15px;
+  border: 1px solid #d0d0d0;
+  border-collapse: collapse;
+}
+
+table {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+input[type=text] {
+  width: 250px;
+  margin: 8px 0;
+  padding: 8px 8px;
+}
+
+#fourDigits {
+  background-color: #f0f0f0;
+}
+
+.error {
+  background-color: #fdc9c5;
+  color: red;
+}
+
+.container {
+  width: 992px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
 }
