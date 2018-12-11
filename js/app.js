@@ -34,6 +34,13 @@ $(document).ready(function() {
     }
     return randomNumber;
   }
+
+  //Programa principal. activado por evento cuano se presiona la tecla enter.
+  $('#shoot').on('keyup', function(event){
+    if (event.keyCode == 13){
+      console.log('Ejcuta el evento');
+    }
+  });
   
   aleatorio = getRandomNumber();
   console.log(aleatorio.join(''));
