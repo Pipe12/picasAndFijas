@@ -92,6 +92,42 @@ $(document).ready(function() {
     return (errors.hasDuplicateDigits || errors.hasLessThanFourDigits);
   }
 
+  function getPlay(play, aleatorio, number_array){
+    if (play) {
+      return picasAndFijas(aleatorio, number_array);
+    }
+  }
+
+  //Determina cuantas picas y fijas se tiene.
+  function picasAndFijas(aleatorio_array, number_array){
+
+    let results = { cantidad_picas: 0, cantidad_fijas: 0 }
+    let comparacion_valores;
+    let comparacion_index;
+
+    // Determina cuantas picas y fijas tiene el numero ingresado.
+    for (var j = 0; j < aleatorio_array.length; j++) {
+      for (var i = 0; i < aleatorio_array.length; i++) {
+        comparacion_valores = (number_array[j] == aleatorio_array[i]);
+        comparacion_index = (i == j);
+        if (comparacion_valores && comparacion_index) {
+          results.cantidad_fijas++;
+        } else if (comparacion_valores) {
+          results.cantidad_picas++;
+        }
+      }
+    }
+
+    //Muestros los resultados del juego
+    if (results.cantidad_fijas == 4) {
+      console.log('Muestro el modal');
+    }else {
+      console.log('Imprimo en la tabla');
+    }
+    $('#shoot').val('');
+    return results;
+  }
+
   //Programa principal. activado por evento cuano se presiona la tecla enter.
   $('#shoot').on('keyup', function(event){
     if (event.keyCode == 13){
@@ -99,7 +135,8 @@ $(document).ready(function() {
       let number_array = becomeArray(number);
       let errors = errorsValidation(number, number_array);
       let play = !showErrors(errors);
-      console.log(play);
+      let results = getPlay(play, aleatorio, number_array);
+      console.log(results);
     }
   });
   
