@@ -1,10 +1,17 @@
 $(document).ready(function() {
+
   // Rangos para la funcion que genera el numero aleatorio. 
   var max = 9;
   var min = 0;
 
   var aleatorio = new Array; //Numero aleatorio de 4 digitos y sin digitos repetidos.
   const quantityDigits = 4; // Cantidad de digitos del numero aleatorio.
+
+  // Obtengo el modal
+  var modal = document.getElementById('myModal');
+
+  //Get teh <button> element that restar de game
+  var playAgain = document.getElementsByClassName("btn-modal")[0];
 
   // Genera un numero aleatorio entre el 0 y el 9.
   function getRandom(){
@@ -92,6 +99,60 @@ $(document).ready(function() {
     return (errors.hasDuplicateDigits || errors.hasLessThanFourDigits);
   }
 
+  // Arranca el juego si el nuemro ingresado no presenta errores. 
+  function getPlay(play, aleatorio, number_array){
+    if (play) {
+      return picasAndFijas(aleatorio, number_array);
+    }
+  }
+
+  //Determina cuantas picas y fijas se tiene.
+  function picasAndFijas(aleatorio_array, number_array){
+
+    let results = { cantidad_picas: 0, cantidad_fijas: 0 }
+    let comparacion_valores;
+    let comparacion_index;
+
+    // Determina cuantas picas y fijas tiene el numero ingresado.
+    for (var j = 0; j < aleatorio_array.length; j++) {
+      for (var i = 0; i < aleatorio_array.length; i++) {
+        comparacion_valores = (number_array[j] == aleatorio_array[i]);
+        comparacion_index = (i == j);
+        if (comparacion_valores && comparacion_index) {
+          results.cantidad_fijas++;
+        } else if (comparacion_valores) {
+          results.cantidad_picas++;
+        }
+      }
+    }
+
+    //Muestros los resultados del juego
+    if (results.cantidad_fijas == 4) {
+      modal.style.display = "block";
+    }else {
+      appendResults(results, number_array);
+    }
+    $('#shoot').val('');
+    return results;
+  }
+
+  // Muestra en pantalla cuanta picas y fijas obtuvo en el intento.
+  function appendResults(results, number_array){
+    let position = document.getElementById('tries');
+    let tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + number_array.join('') + '</td>' +
+                   '<td>' + results.cantidad_picas + '</td>' +
+                   '<td>' + results.cantidad_fijas + '</td>';
+
+    position.prepend(tr); 
+  }
+
+  // Cierra el modal y recarga la pagina.
+  playAgain.onclick = function() {
+    modal.style.display = "none";
+    location.reload();
+  }
+
   //Programa principal. activado por evento cuano se presiona la tecla enter.
   $('#shoot').on('keyup', function(event){
     if (event.keyCode == 13){
@@ -99,10 +160,12 @@ $(document).ready(function() {
       let number_array = becomeArray(number);
       let errors = errorsValidation(number, number_array);
       let play = !showErrors(errors);
-      console.log(play);
+      let results = getPlay(play, aleatorio, number_array);
     }
   });
   
+  // Propiedades de inicializacion del juego.
+  $('#shoot').val('');
   aleatorio = getRandomNumber();
   console.log(aleatorio.join(''));
 })
