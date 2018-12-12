@@ -122,10 +122,21 @@ $(document).ready(function() {
     if (results.cantidad_fijas == 4) {
       console.log('Muestro el modal');
     }else {
-      console.log('Imprimo en la tabla');
+      appendResults(results, number_array);
     }
     $('#shoot').val('');
     return results;
+  }
+
+  // Muestra en pantalla cuanta picas y fijas obtuvo en el intento.
+  function appendResults(results, number_array){
+    let position = document.getElementById('tries');
+    let tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + number_array.join('') + '</td>' +
+                   '<td>' + results.cantidad_picas + '</td>' +
+                   '<td>' + results.cantidad_fijas + '</td>';
+
+    position.prepend(tr); 
   }
 
   //Programa principal. activado por evento cuano se presiona la tecla enter.
